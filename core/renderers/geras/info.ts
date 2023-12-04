@@ -429,6 +429,7 @@ export class RenderInfo extends BaseRenderInfo {
     // accesses and sets properties that already exist on the objects.
     let widestRowWithConnectedBlocks = 0;
     let yCursor = 0;
+
     for (let i = 0, row; (row = this.rows[i]); i++) {
       row.yPos = yCursor;
       row.xPos = this.startX;
@@ -456,6 +457,7 @@ export class RenderInfo extends BaseRenderInfo {
       this.block_.nextConnection &&
       this.block_.nextConnection.isConnected()
     ) {
+      // TODO(mult): update this
       const target = this.block_.nextConnection.targetBlock();
       if (target) {
         // Include width of connected block in value to stack width measurement.
@@ -466,13 +468,28 @@ export class RenderInfo extends BaseRenderInfo {
       }
     }
 
-    this.bottomRow.baseline = yCursor - this.bottomRow.descenderHeight;
+    // TODO: extend width to that of anything within a DO block
+    if (this.block_.isAsync) {
+      // IMPORTANT
+      // this.bottomRow.baseline =
+      //   this.constants_.MIN_BLOCK_HEIGHT + this.constants_.TOP_ROW_MIN_HEIGHT;
+      this.bottomRow.baseline = yCursor - this.bottomRow.descenderHeight;
+    } else {
+      this.bottomRow.baseline = yCursor - this.bottomRow.descenderHeight;
+    }
     this.widthWithChildren =
       widestRowWithConnectedBlocks +
       this.startX +
       this.constants_.DARK_PATH_OFFSET;
     this.width += this.constants_.DARK_PATH_OFFSET;
-    this.height = yCursor + this.constants_.DARK_PATH_OFFSET;
+
+    if (this.block_.isAsync) {
+      this.height = 0;
+    } else {
+      // this.height = yCursor;
+      this.height = yCursor + this.constants_.DARK_PATH_OFFSET;
+    }
+    // if (log) console.log(`final height: ${this.height}`);
     this.startY = this.topRow.capline;
   }
 }

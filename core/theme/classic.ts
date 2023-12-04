@@ -11,6 +11,7 @@ import {Theme} from '../theme.js';
 const defaultBlockStyles = {
   'colour_blocks': {'colourPrimary': '20'},
   'list_blocks': {'colourPrimary': '260'},
+  'parallel_blocks': {'colourPrimary': '190'},
   'logic_blocks': {'colourPrimary': '210'},
   'loop_blocks': {'colourPrimary': '120'},
   'math_blocks': {'colourPrimary': '230'},
@@ -24,6 +25,7 @@ const defaultBlockStyles = {
 const categoryStyles = {
   'colour_category': {'colour': '20'},
   'list_category': {'colour': '260'},
+  'parallel_category': {'colour': '190'},
   'logic_category': {'colour': '210'},
   'loop_category': {'colour': '120'},
   'math_category': {'colour': '230'},

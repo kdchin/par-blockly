@@ -11,6 +11,7 @@ import * as lists from './lists.js';
 import * as logic from './logic.js';
 import * as loops from './loops.js';
 import * as math from './math.js';
+import * as parallel from './parallel.js';
 import * as procedures from './procedures.js';
 import * as texts from './text.js';
 import * as variables from './variables.js';
@@ -22,6 +23,7 @@ export {
   lists,
   loops,
   math,
+  parallel,
   procedures,
   texts,
   variables,
@@ -39,6 +41,7 @@ export const blocks: {[key: string]: BlockDefinition} = Object.assign(
   logic.blocks,
   loops.blocks,
   math.blocks,
+  parallel.blocks,
   procedures.blocks,
   variables.blocks,
   variablesDynamic.blocks,

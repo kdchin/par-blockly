@@ -289,6 +289,7 @@ export class RenderInfo {
       this.bottomRow.elements.push(new RoundCorner(this.constants_));
     }
 
+    // TODO(mult): update this
     if (this.bottomRow.hasNextConnection) {
       this.bottomRow.connection = new NextConnection(
         this.constants_,
@@ -475,7 +476,7 @@ export class RenderInfo {
       blockWidth = Math.max(blockWidth, row.width);
       if (row.hasStatement) {
         const statementInput = row.getLastInput();
-        const innerWidth = row.width - (statementInput?.width ?? 0);
+        let innerWidth = row.width - (statementInput?.width ?? 0);
         widestStatementRowFields = Math.max(
           widestStatementRowFields,
           innerWidth,
@@ -486,7 +487,9 @@ export class RenderInfo {
         row.widthWithConnectedBlocks,
       );
     }
+    // IMPORTANT
 
+    blockWidth = this.block_.isAsync ? this.getMaxStatementWidth(blockWidth) : blockWidth;
     this.statementEdge = widestStatementRowFields;
     this.width = blockWidth;
 
@@ -505,12 +508,35 @@ export class RenderInfo {
     }
   }
 
+  private getMaxStatementWidth(min: number) : number {
+    let w = min;
+    // first, get the widths of anything within the DO input
+    const inputStatement = this.block_.getInput("DO");
+    let nextBlock : BlockSvg | null = inputStatement?.connection?.targetBlock() as BlockSvg | null;
+    const offset = this.constants_.STATEMENT_INPUT_PADDING_LEFT + this.constants_.NOTCH_WIDTH;
+    while (nextBlock) {
+      const newWidth = nextBlock.getHeightWidth().width + offset;
+      w = Math.max(w, newWidth);
+      nextBlock = nextBlock.getNextBlock();
+    }
+
+    // also get the widths of anything below
+    nextBlock = this.block_.getNextBlock();
+    while (nextBlock) {
+      const newWidth = nextBlock.getHeightWidth().width;
+      w = Math.max(w, newWidth);
+      nextBlock = nextBlock.getNextBlock();
+    }
+    return w;
+  }
+
   /**
    * Extra spacing may be necessary to make sure that the right sides of all
    * rows line up.  This can only be calculated after a first pass to calculate
    * the sizes of all rows.
    */
   protected alignRowElements_() {
+    // IMPORTANT
     for (let i = 0, row; (row = this.rows[i]); i++) {
       if (row.hasStatement) {
         this.alignStatementRow_(row as InputRow);
@@ -593,6 +619,7 @@ export class RenderInfo {
     // block. Note that this does not add padding.
     currentWidth = row.width;
     desiredWidth = this.getDesiredRowWidth_(row);
+
     statementInput.width += desiredWidth - currentWidth;
     statementInput.height = Math.max(statementInput.height, row.height);
     row.width += desiredWidth - currentWidth;
@@ -744,7 +771,6 @@ export class RenderInfo {
 
     this.widthWithChildren = widestRowWithConnectedBlocks + this.startX;
 
-    this.height = yCursor;
     this.startY = this.topRow.capline;
     this.bottomRow.baseline = yCursor - this.bottomRow.descenderHeight;
   }

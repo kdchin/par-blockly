@@ -195,6 +195,7 @@ export class Block implements IASTNodeLocation, IDeletable {
   isInFlyout: boolean;
   isInMutator: boolean;
   RTL: boolean;
+  isAsync: boolean = false;
 
   /** True if this block is an insertion marker. */
   protected isInsertionMarker_ = false;
@@ -693,6 +694,7 @@ export class Block implements IASTNodeLocation, IDeletable {
         }
       }
     }
+    // TODO(mult): update
     const next = this.getNextBlock();
     if (next) {
       blocks.push(next);
@@ -1741,6 +1743,11 @@ export class Block implements IASTNodeLocation, IDeletable {
       for (let j = 0; j < extensionNames.length; j++) {
         Extensions.apply(extensionNames[j], this, false);
       }
+    }
+
+    // allow for async blocks to be rendered differently
+    if (json['isAsync'] !== undefined) {
+      this.isAsync = true;
     }
   }
 

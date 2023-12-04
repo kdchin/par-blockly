@@ -18,6 +18,7 @@ import * as lists from './javascript/lists.js';
 import * as logic from './javascript/logic.js';
 import * as loops from './javascript/loops.js';
 import * as math from './javascript/math.js';
+import * as parallel from './javascript/parallel.js';
 import * as procedures from './javascript/procedures.js';
 import * as text from './javascript/text.js';
 import * as variables from './javascript/variables.js';
@@ -38,6 +39,7 @@ const generators: typeof javascriptGenerator.forBlock = {
   ...logic,
   ...loops,
   ...math,
+  ...parallel,
   ...procedures,
   ...text,
   ...variables,
