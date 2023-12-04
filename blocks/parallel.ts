@@ -244,7 +244,6 @@ function MAIN_FORK_EXTENSION (this: Block) {
     if (event.type !== eventUtils.BLOCK_CHANGE) {
       return;
     }
-    this.shouldExtendHeight = this.getFieldValue('AWAIT') === "sync";
   });
 }
 
@@ -301,6 +300,17 @@ export const blocks = createBlockDefinitionsFromJsonArray([
         'isAsync': true,
         'style': 'parallel_blocks',
     },
+    {
+      'type': 'parallel_fork_add_return',
+      'previousStatement': true,
+      'message0': 'return %1',
+      'args0':[{
+        'type': 'input_value',
+        'name': 'RETURN',
+        'align': 'RIGHT',
+      }],
+      'style': 'parallel_blocks'
+    }
 ]);
 blocks["parallel_sync"] = PARALLEL_SYNC;
 defineBlocks(blocks);

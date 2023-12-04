@@ -37,3 +37,10 @@ export function parallel_fork_add(
     }
     return [allCode.join(',\n'), Order.NONE];
 }
+
+export function parallel_fork_add_return(
+    block: Block,
+    generator: JavascriptGenerator
+) {
+    return `return ${generator.valueToCode(block, 'RETURN', Order.NONE)};\n`;
+}
