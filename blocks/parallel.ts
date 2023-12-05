@@ -303,13 +303,12 @@ export const blocks = createBlockDefinitionsFromJsonArray([
     {
       'type': 'parallel_fork_add_return',
       'previousStatement': true,
-      'message0': 'return %1',
+      'message0': 'join with %1',
       'args0':[{
         'type': 'input_value',
         'name': 'RETURN',
         'align': 'RIGHT',
       }],
-      'style': 'parallel_blocks'
     }
 ]);
 blocks["parallel_sync"] = PARALLEL_SYNC;

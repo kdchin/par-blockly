@@ -468,28 +468,14 @@ export class RenderInfo extends BaseRenderInfo {
       }
     }
 
-    // TODO: extend width to that of anything within a DO block
-    if (this.block_.isAsync) {
-      // IMPORTANT
-      // this.bottomRow.baseline =
-      //   this.constants_.MIN_BLOCK_HEIGHT + this.constants_.TOP_ROW_MIN_HEIGHT;
-      this.bottomRow.baseline = yCursor - this.bottomRow.descenderHeight;
-    } else {
-      this.bottomRow.baseline = yCursor - this.bottomRow.descenderHeight;
-    }
+    this.bottomRow.baseline = yCursor - this.bottomRow.descenderHeight;
     this.widthWithChildren =
       widestRowWithConnectedBlocks +
       this.startX +
       this.constants_.DARK_PATH_OFFSET;
     this.width += this.constants_.DARK_PATH_OFFSET;
 
-    if (this.block_.isAsync) {
-      this.height = 0;
-    } else {
-      // this.height = yCursor;
-      this.height = yCursor + this.constants_.DARK_PATH_OFFSET;
-    }
-    // if (log) console.log(`final height: ${this.height}`);
+    this.height = yCursor + this.constants_.DARK_PATH_OFFSET;
     this.startY = this.topRow.capline;
   }
 }

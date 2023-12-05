@@ -196,6 +196,20 @@ export class RenderInfo {
       for (let j = 0, field; (field = input.fieldRow[j]); j++) {
         activeRow.elements.push(new Field(this.constants_, field, input));
       }
+      if (this.block_.isAsync) {// && this.block_.getFieldValue('AWAIT') === "sync")
+        if (input.name === "NEXT_THREAD") {
+          activeRow.setAsync();
+        } else if (input.name === "FORK1") {
+          activeRow.setAsync();
+          if (this.block_.getFieldValue('AWAIT') === "sync") {
+            const nextBlock = input.connection?.targetBlock() as BlockSvg | null; 
+            if (nextBlock) {
+              const newHeight = nextBlock.getMaxHeight();
+              activeRow.setOverrideHeight(newHeight);
+            }
+          }
+        }
+      }
       this.addInput_(input, activeRow);
       lastInput = input;
     }
@@ -488,7 +502,6 @@ export class RenderInfo {
       );
     }
     // IMPORTANT
-
     blockWidth = this.block_.isAsync ? this.getMaxStatementWidth(blockWidth) : blockWidth;
     this.statementEdge = widestStatementRowFields;
     this.width = blockWidth;

@@ -1713,6 +1713,16 @@ export class BlockSvg
     return {height, width};
   }
 
+  getMaxHeight(): number {
+    let height = this.height;
+    const nextBlock = this.getInput("NEXT_THREAD")?.connection?.targetBlock() as BlockSvg | null; 
+    if (nextBlock) {
+      const nextHeight = nextBlock.getMaxHeight();
+      height = Math.max(height, nextHeight);
+    }
+    return height;
+  }
+
   /**
    * Visual effect to show that if the dragging block is dropped, this block
    * will be replaced.  If a shadow block, it will disappear.  Otherwise it will

@@ -22,6 +22,8 @@ export class InputRow extends Row {
    * The total width of all blocks connected to this row.
    */
   connectedBlockWidths = 0;
+  private isAsync: boolean = false;
+  private overrideHeight: number | null = null;
 
   /**
    * @param constants The rendering constants provider.
@@ -31,12 +33,21 @@ export class InputRow extends Row {
     this.type |= Types.INPUT_ROW;
   }
 
+  setAsync() {
+    this.isAsync = true;
+  }
+
+  setOverrideHeight(height: number) {
+    this.overrideHeight = height;
+  }
+
   /**
    * Inspect all subcomponents and populate all size properties on the row.
    */
   override measure() {
     this.width = this.minWidth;
     this.height = this.minHeight;
+    // fix it here
     let connectedBlockWidths = 0;
     for (let i = 0; i < this.elements.length; i++) {
       const elem = this.elements[i];
@@ -56,6 +67,9 @@ export class InputRow extends Row {
       if (!Types.isSpacer(elem)) {
         this.height = Math.max(this.height, elem.height);
       }
+    }
+    if (this.isAsync) {
+      this.height = this.overrideHeight || this.constants_.MIN_BLOCK_HEIGHT;
     }
     this.connectedBlockWidths = connectedBlockWidths;
     this.widthWithConnectedBlocks = this.width + connectedBlockWidths;
