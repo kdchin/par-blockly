@@ -20,5 +20,5 @@ You can paste example json from [parallel_1.json](parallel_1.json), [parallel_2.
 #### Asynchronous Execution
 ![](media/blockly-async.png)
 
-#### Synchroous Execution
+#### Synchronous Execution
 ![](media/blockly-sync.png)
