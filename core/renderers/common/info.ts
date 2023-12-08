@@ -205,7 +205,7 @@ export class RenderInfo {
             const nextBlock = input.connection?.targetBlock() as BlockSvg | null; 
             if (nextBlock) {
               const newHeight = nextBlock.getMaxHeight();
-              activeRow.setOverrideHeight(newHeight);
+              activeRow.setOverrideHeight(newHeight - 40);
             }
           }
         }

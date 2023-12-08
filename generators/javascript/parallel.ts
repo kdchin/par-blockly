@@ -13,9 +13,9 @@ export function parallel_fork(
 ): string {
     const threadValues = generator.valueToCode(block, 'FORK1', Order.NONE);
     const threadCode = generator.prefixLines(threadValues, generator.INDENT);
-    console.log(`threadValues: ${threadValues}`);
+    const shouldAwait = block.getFieldValue("AWAIT") === "sync";
     const code = `
-await Promise.all([
+${shouldAwait ? 'await ' : ''}Promise.all([
 ${threadCode}
 ]);\n`;
     // TODO(mult): should probably support await here
